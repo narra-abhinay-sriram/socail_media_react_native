@@ -5,7 +5,7 @@
  * @format
  */
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   FlatList,
   SafeAreaView,
@@ -65,7 +65,145 @@ function App() {
       id: 8,
       profileImage: require('./assets/images/github_dp.jpg'),
     },
+    {
+      firstName:'Ajay',
+      id: 9,
+      profileImage: require('./assets/images/github_dp.jpg'),
+    },
+    {
+      firstName:'Ajay',
+      id: 10,
+      profileImage: require('./assets/images/github_dp.jpg'),
+    },
+    {
+      firstName:'Ajay',
+      id: 11,
+      profileImage: require('./assets/images/github_dp.jpg'),
+    },
+    {
+      firstName:'Ajay',
+      id: 12,
+      profileImage: require('./assets/images/github_dp.jpg'),
+    },
+    {
+      firstName:'Ajay',
+      id: 13,
+      profileImage: require('./assets/images/github_dp.jpg'),
+    },
+    {
+      firstName:'Ajay',
+      id: 14,
+      profileImage: require('./assets/images/github_dp.jpg'),
+    },
   ];
+  const userPosts = [
+    {
+      firstName:'ABhinay',
+      lastName:'Narra',
+      location:'Hyd, India',
+      likes:1302,
+      comments:22,
+      bookMarks:11,
+      id:1,
+    },
+    {
+      firstName:'Akaay',
+      lastName:'Kohli',
+      location:'london, UK',
+      likes:102,
+      comments:12,
+      bookMarks:1,
+      id:2,
+    },
+    {
+      firstName:'Ahaan',
+      lastName:'sharma',
+      location:'Mumbai, Maharashtra',
+      likes:1102,
+      comments:222,
+      bookMarks:151,
+      id:3,
+    },
+    {
+      firstName:'Angad',
+      lastName:'Bumrah',
+      location:'Punjab, India',
+      likes:702,
+      comments:54,
+      bookMarks:19,
+      id:4,
+    },
+    {
+      firstName:'Agastya',
+      lastName:'pandya',
+      location:'Baroda, India',
+      likes:102,
+      comments:2,
+      bookMarks:1,
+      id:5,
+    },
+    {
+      firstName:'ABhinay',
+      lastName:'Narra',
+      location:'Hyd, India',
+      likes:1302,
+      comments:22,
+      bookMarks:11,
+      id:6,
+    },
+    {
+      firstName:'ABhinay',
+      lastName:'Narra',
+      location:'Hyd, India',
+      likes:1302,
+      comments:22,
+      bookMarks:11,
+      id:7,
+    },
+    {
+      firstName:'ABhinay',
+      lastName:'Narra',
+      location:'Hyd, India',
+      likes:1302,
+      comments:22,
+      bookMarks:11,
+      id:8,
+    },
+    {
+      firstName:'ABhinay',
+      lastName:'Narra',
+      location:'Hyd, India',
+      likes:1302,
+      comments:22,
+      bookMarks:11,
+      id:9,
+    },
+  ];
+  const pageindex = 4;
+  const [userCurrentpage,setuserCurrentpage] = useState(1);
+  const [userRenderredstory,setRenderedstory] = useState([]);
+  const [isloadingStory,setisloadingStory] = useState(false);
+  const pagePostindex = 6;
+  const [userPostCurrentpage,setuserPostCurrentpage] = useState(1);
+  const [userRenderredPost,setRenderedPost] = useState([]);
+  const [isloadingPost,setisloadingPost] = useState(false);
+
+  const pagination = (database,currentpage,pagesize)=>{
+    const startindex = (currentpage - 1) * pagesize;
+    const endindex = startindex + pagesize;
+    if(startindex >= database.length)
+    {
+      return [];
+    }
+    return database.slice(startindex,endindex);
+  };
+
+  useEffect(()=>{
+    setisloadingStory(true);
+ const getinitialData = pagination(userstories,1,pageindex);
+ setRenderedstory(getinitialData);
+    setisloadingStory(false);
+  },[]);
 
   return (
     <SafeAreaView >
@@ -81,9 +219,24 @@ function App() {
       </View>
       <View style={Globalstyle.userStoryContainer}>
         <FlatList
+        onEndReachedThreshold={0.5}
+        onEndReached={()=>{
+          if(isloadingStory)
+          {
+            return;
+          }
+          setisloadingStory(true);
+          const contentToAppend = pagination(userstories,userCurrentpage + 1,pageindex);
+          if(contentToAppend.length > 0)
+          {
+            setuserCurrentpage(userCurrentpage + 1);
+            setRenderedstory((prev)=>[...prev,...contentToAppend]);
+          }
+          setisloadingStory(false);
+        }}
          showsHorizontalScrollIndicator={false}
         horizontal={true}
-         data={userstories} renderItem={({item})=> <UserStory firstName={item.firstName} profileImage={item.profileImage} />} />
+         data={userRenderredstory} renderItem={({item})=> <UserStory firstName={item.firstName} profileImage={item.profileImage} />} />
       </View>
 </SafeAreaView>
   );

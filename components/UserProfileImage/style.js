@@ -5,6 +5,7 @@ const Profile = StyleSheet.create({
         borderWidth:2,
         borderColor:'#F35BAC',
         padding:3,
+        margin:3,
     },
 
 });

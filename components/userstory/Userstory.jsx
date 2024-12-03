@@ -14,6 +14,5 @@ const UserStory = (props)=>{
 export default UserStory;
 UserStory.propTypes = {
     firstName:PropTypes.string.isRequired,
-    profileImage:PropTypes.object.isRequired,
 
 };

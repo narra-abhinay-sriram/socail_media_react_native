@@ -14,6 +14,5 @@ const UserProfileImage = (props)=> {
 export default UserProfileImage;
 
 UserProfileImage.propTypes = {
-    userImage:PropTypes.object.isRequired,
     imageDimensions:PropTypes.number.isRequired,
 };
