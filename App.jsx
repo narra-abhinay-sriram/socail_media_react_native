@@ -22,6 +22,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faEnvelope } from '@fortawesome/free-regular-svg-icons';
 import Globalstyle from './assets/styles/globalstyle';
 import UserStory from './components/userstory/Userstory';
+import Userpost from './components/userPost/userPost';
 
 function App() {
   const userstories = [
@@ -104,6 +105,10 @@ function App() {
       likes:1302,
       comments:22,
       bookMarks:11,
+      Image: require('./assets/images/default_post.png'),
+      profileImage: require('./assets/images/github_dp.jpg'),
+
+
       id:1,
     },
     {
@@ -113,6 +118,10 @@ function App() {
       likes:102,
       comments:12,
       bookMarks:1,
+      Image: require('./assets/images/default_post.png'),
+      profileImage: require('./assets/images/github_dp.jpg'),
+
+
       id:2,
     },
     {
@@ -122,6 +131,8 @@ function App() {
       likes:1102,
       comments:222,
       bookMarks:151,
+      Image: require('./assets/images/default_post.png'),
+      profileImage: require('./assets/images/github_dp.jpg'),
       id:3,
     },
     {
@@ -131,6 +142,8 @@ function App() {
       likes:702,
       comments:54,
       bookMarks:19,
+      Image: require('./assets/images/default_post.png'),
+      profileImage: require('./assets/images/github_dp.jpg'),
       id:4,
     },
     {
@@ -140,6 +153,8 @@ function App() {
       likes:102,
       comments:2,
       bookMarks:1,
+      Image: require('./assets/images/default_post.png'),
+      profileImage: require('./assets/images/github_dp.jpg'),
       id:5,
     },
     {
@@ -149,6 +164,8 @@ function App() {
       likes:1302,
       comments:22,
       bookMarks:11,
+      Image: require('./assets/images/default_post.png'),
+      profileImage: require('./assets/images/github_dp.jpg'),
       id:6,
     },
     {
@@ -158,6 +175,8 @@ function App() {
       likes:1302,
       comments:22,
       bookMarks:11,
+      Image: require('./assets/images/default_post.png'),
+      profileImage: require('./assets/images/github_dp.jpg'),
       id:7,
     },
     {
@@ -167,6 +186,8 @@ function App() {
       likes:1302,
       comments:22,
       bookMarks:11,
+      Image: require('./assets/images/default_post.png'),
+      profileImage: require('./assets/images/github_dp.jpg'),
       id:8,
     },
     {
@@ -176,6 +197,8 @@ function App() {
       likes:1302,
       comments:22,
       bookMarks:11,
+      Image: require('./assets/images/default_post.png'),
+      profileImage: require('./assets/images/github_dp.jpg'),
       id:9,
     },
   ];
@@ -183,7 +206,7 @@ function App() {
   const [userCurrentpage,setuserCurrentpage] = useState(1);
   const [userRenderredstory,setRenderedstory] = useState([]);
   const [isloadingStory,setisloadingStory] = useState(false);
-  const pagePostindex = 6;
+  const pagePostindex = 2;
   const [userPostCurrentpage,setuserPostCurrentpage] = useState(1);
   const [userRenderredPost,setRenderedPost] = useState([]);
   const [isloadingPost,setisloadingPost] = useState(false);
@@ -203,11 +226,21 @@ function App() {
  const getinitialData = pagination(userstories,1,pageindex);
  setRenderedstory(getinitialData);
     setisloadingStory(false);
+    setisloadingPost(true);
+ const getinitialPost = pagination(userPosts,1,pagePostindex);
+ setRenderedPost(getinitialPost);
+    setisloadingPost(false);
   },[]);
 
   return (
     <SafeAreaView >
-      <View style={Globalstyle.header}>
+
+      <View>
+
+        <FlatList
+        ListHeaderComponent={
+        <>
+         <View style={Globalstyle.header}>
       <Title title={'Lets Explore'} />
       <TouchableOpacity style={Globalstyle.messageIcon}>
       <FontAwesomeIcon icon={faEnvelope} color={'#898DAE'} size={25} />
@@ -236,7 +269,39 @@ function App() {
         }}
          showsHorizontalScrollIndicator={false}
         horizontal={true}
-         data={userRenderredstory} renderItem={({item})=> <UserStory firstName={item.firstName} profileImage={item.profileImage} />} />
+         data={userRenderredstory} renderItem={({item})=> <UserStory key={item.id} firstName={item.firstName} profileImage={item.profileImage} />} />
+      </View>
+      </>
+      }
+      onEndReachedThreshold={0.5}
+      onEndReached={()=>{
+        if(isloadingPost)
+        {return;}
+        setisloadingPost(true);
+        const AppendingPost = pagination(userPosts,userPostCurrentpage + 1,pagePostindex);
+        if(AppendingPost.length >= 0)
+        {
+          setuserPostCurrentpage(userPostCurrentpage + 1);
+          setRenderedPost((prev)=>[...prev,...userRenderredPost]);
+        }
+        setisloadingPost(false);
+
+      }}
+        data={userRenderredPost}
+        showsVerticalScrollIndicator={false}
+        renderItem={({item})=>
+        <View style={Globalstyle.userPostcontainer}>
+          <Userpost
+          key={item.id}
+          firstName={item.firstName}
+           lastName={item.lastName}
+           location={item.location}
+           likes={item.likes}
+           comments={item.comments}
+           bookmarks={item.bookMarks}
+           image={item.Image}
+           profileImage={item.profileImage} />
+           </View>} />
       </View>
 </SafeAreaView>
   );

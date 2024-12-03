@@ -32,9 +32,14 @@ color:'#FFFFFF',
 fontSize:6,
 fontFamily:FontFamily('Inter_28pt',600),
     },
+
     userStoryContainer:{
         marginTop:20,
         marginHorizontal:28,
+    },
+
+    userPostcontainer:{
+        marginHorizontal:24,
     },
 });
 export default Globalstyle;
