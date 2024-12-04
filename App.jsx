@@ -309,3 +309,7 @@ function App() {
 
 
 export default App;
+
+//dimensions.get("screen")
+//dimensions.addeevntlisterner("change",(result)=>{})
+
