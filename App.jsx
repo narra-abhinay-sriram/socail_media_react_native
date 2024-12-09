@@ -33,4 +33,6 @@ export default App;
 {/*
 navigationcontainer
 stack naviagtion,
+drawer navigation,
+materialtoptab navigation
   */}
